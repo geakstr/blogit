@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+import os
+import markdown
+
+dirs = {
+  'root' : os.path.abspath(os.path.dirname(__file__)),
+  'www' : 'blog',  
+  'html_posts' : 'blog/posts',
+  'workspace' : 'workspace',
+  'md_posts' : 'workspace/posts'
+}
+
+test_file_name = 'test.md'
+
+# OS interactions
+def read_file(file_name):
+  return ''.join(open(file_name, 'r+'))
+
+def write_file(file_name, content):
+  open(file_name, 'w+').write(content)
+
+def cmd(cmd):
+  return os.popen(cmd).read().strip()
+
+# Git interactions
+def git_changed():
+  return cmd('git show --pretty=format: --name-only').splitlines()
+
+def convert_posts_from_md_to_html(files):
+  for file in files:
+    if (file.startswith(dirs['md_posts'])):
+      html_content = markdown.markdown(read_file(file))
+
+      md_file = file[len(dirs['md_posts'])]
+      if (md_file.endswith('.md')):
+        md_file = md_file[:-3]
+      md_file += '.html'
+    
+convert_posts_from_md_to_html(git_changed())
+
+
