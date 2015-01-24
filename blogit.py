@@ -2,46 +2,43 @@
 
 import os
 import glob
-import markdown
-from git import Repo
 
 dirs = {
   'root' : os.path.abspath(os.path.dirname(__file__)),
-  'articles' : {
-    'md' : 'private/articles',
-    'html': 'public/articles'
-  }
+  'blog' : 'blog',
+  'posts' : 'blog/posts'
 }
 
-git = {
-  'repo' : Repo(dirs['root'])
-}
+test_file_name = 'test.md'
 
-test_file_name = 'private/articles/test.md'
-
+# OS interactions
 def read_file(file_name):
   return ''.join(open(file_name, 'r+'))
 
+def write_file(file_name, content):
+  open(file_name, 'w+').write(content)
 
+def cmd(cmd):
+  return os.popen(cmd).read().strip()
 
-repo = Repo(dirs['root'])
-repo_head = repo.head
-last_files = repo_head.commit.stats.files
+# Git interactions
+def git_changed():
+  return cmd('git show --pretty=format: --name-only')
 
+print (git_changed())
 #for file in last_files.keys():
-for file in glob.glob(dirs['articles']['md'] + "/*.md"):
+# for file in glob.glob(dirs['articles']['md'] + "/*.md"):
   
-  if (file.startswith(dirs['articles']['md'])):
-    html = markdown.markdown(read_file(file))
+#   if (file.startswith(dirs['articles']['md'])):
+#     html = markdown.markdown(read_file(file))
 
-    md_file_name = file[len(dirs['articles']['md']):]
+#     md_file_name = file[len(dirs['articles']['md']):]
 
-    if (md_file_name.endswith('.md')):
-      md_file_name = md_file_name[:-3]
+#     if (md_file_name.endswith('.md')):
+#       md_file_name = md_file_name[:-3]
 
-    md_file_name += '.html'
+#     md_file_name += '.html'
 
-    with open(dirs['articles']['md'] + '/' + md_file_name, 'w+') as f:
-      f.write(html)
+    
 
 

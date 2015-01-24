@@ -1,2 +1,0 @@
-markdown >= 2.5.2
-gitpython >= 0.3
