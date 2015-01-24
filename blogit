@@ -1,42 +1,138 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
+import io
+import glob
+import json
 import markdown
+
+def read_file(file_name):
+  ret = None
+  with io.open(file_name, 'r+', encoding='utf8') as f:
+    ret = ''.join(f)
+    f.close()
+  return ret
+
+def write_file(file_name, content):
+  with io.open(file_name, 'w+', encoding='utf8') as f:
+    f.write(content)
+    f.close()
+
+def read_configs():
+  return json.loads(read_file('configs.json'))
+
+def cmd(cmd):
+  return os.popen(cmd).read().strip()
+
+def get_changed_posts():
+  files = cmd('git show --pretty=format: --name-only').splitlines()
+  return [file for file in files if file.startswith(dirs['md_posts'])]
+
+def get_post_title(md):
+  title = None
+  if md[0] == '#':
+    title = md[:md.find('\n')].strip('# ')
+  return title
+
+def set_page_title(html, title): 
+  return html.replace('[^title^]', title)
+
+def build_post_filename(file_name):
+  return file_name[len(dirs['md_posts']) + 1:-3] + '.html'
+
+def build_post(html_content, page_title):
+  layout_header = set_page_title(layout['post_header'], page_title);
+  layout_footer = layout['post_footer']
+  return layout_header + '\n' + html_content + '\n' + layout_footer
+
+def build_page(html_content, page_title):
+  layout_header = set_page_title(layout['page_header'], page_title);
+  layout_footer = layout['page_footer']
+  return layout_header + '\n' + html_content + '\n' + layout_footer
+
+def clean_posts_folder():
+  for f in glob.glob(dirs['html_posts'] + '/*'):
+    os.remove(f)
+
+def clean_pages_folder():
+  for f in glob.glob(dirs['html_pages']  + '/*'):
+    os.remove(f)
+
+def clean_folders():
+  clean_posts_folder()
+  clean_pages_folder()
+   
+def build_all_posts(md_files):
+  posts_info = []
+  for md_file in md_files:
+    md_content = read_file(md_file).strip()
+
+    html_file = build_post_filename(md_file)
+
+    post_title = get_post_title(md_content)
+    page_title = post_title + ' | ' + cfg['title']
+
+    post_info = {
+      'file_name' : html_file,
+      'post_title' : post_title,
+      'page_title' : page_title
+    }
+
+    posts_info.append(post_info)
+    
+    html_content = build_post(markdown.markdown(md_content), page_title)
+
+    write_file(dirs['html_posts'] + '/' + html_file, html_content)
+  return posts_info
+
+def build_page_post_item(post_info):
+  url = '../posts/' + post_info['file_name']
+  title = post_info['post_title']
+  return '<h2><a href="{0}">{1}</a></h2>'.format(url, title)
+
+def build_blog_pages(posts_info):
+  pages = []
+  for idx in range(0, len(posts_info), cfg['posts_on_page']):
+    pages.append(posts_info[idx:idx+cfg['posts_on_page']])
+
+  # write_file('test', pages[0][0]['page_title'])
+
+  for page_idx, page in enumerate(pages):
+    page_content = ''
+    for post_idx, post_info in enumerate(page):
+      page_content += build_page_post_item(post_info)
+      if post_idx < len(page) - 1:
+        page_content += '\n'
+    page_content = build_page(page_content, cfg['title'])
+
+    page_name = str(page_idx + 1) + '.html'
+    write_file(dirs['html_pages'] + '/' + page_name, page_content)
+
+
+cfg = read_configs()
 
 dirs = {
   'root' : os.path.abspath(os.path.dirname(__file__)),
   'www' : 'blog',  
   'html_posts' : 'blog/posts',
+  'html_pages' : 'blog/pages',
   'workspace' : 'workspace',
-  'md_posts' : 'workspace/posts'
+  'md_posts' : 'workspace/posts',
+  'layouts' : 'workspace/layout'
 }
 
-test_file_name = 'test.md'
+layout = {
+  'post_header' : read_file(dirs['layouts'] + '/post-header.html'),
+  'post_footer' : read_file(dirs['layouts'] + '/post-footer.html'),
+  'page_header' : read_file(dirs['layouts'] + '/page-header.html'),
+  'page_footer' : read_file(dirs['layouts'] + '/page-footer.html')
+}
 
-# OS interactions
-def read_file(file_name):
-  return ''.join(open(file_name, 'r+'))
+clean_folders()
+build_blog_pages(build_all_posts(glob.glob(dirs['md_posts'] + '/*.md')))
 
-def write_file(file_name, content):
-  open(file_name, 'w+').write(content)
 
-def cmd(cmd):
-  return os.popen(cmd).read().strip()
 
-# Git interactions
-def git_changed():
-  return cmd('git show --pretty=format: --name-only').splitlines()
-
-def convert_posts_from_md_to_html(files):
-  for file in files:
-    if (file.startswith(dirs['md_posts'])):
-      html_content = markdown.markdown(read_file(file))
-
-      md_file = file[len(dirs['md_posts'])]
-      if (md_file.endswith('.md')):
-        md_file = md_file[:-3]
-      md_file += '.html'
-    
-convert_posts_from_md_to_html(git_changed())
 
 
