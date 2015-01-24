@@ -1,0 +1,29 @@
+body {
+  width: 640px;
+  margin: 0 auto;
+  background: #FFF;
+  font-family: sans-serif;
+  font-size: 1em;
+  line-height: 1.375em;
+}
+
+#logo,
+#posts .post-title {
+  font-family: serif;
+}
+
+#logo {
+  font-size: 1.375em;
+  line-height: 1em;
+}
+
+#posts {
+  margin: 0;
+  padding: 0;
+  list-style: none outside;
+}
+
+#posts h2e {
+  font-size: 1.375em;
+  line-height: 1.273em;
+}

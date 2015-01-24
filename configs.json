@@ -1,4 +1,5 @@
 {
   "title" : "Это мой блог",
-  "posts_on_page" : 1
+  "posts_on_page" : 1,
+  "theme" : "minimal"
 }

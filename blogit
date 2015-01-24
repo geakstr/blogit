@@ -38,17 +38,39 @@ def get_post_title(md):
 def set_page_title(html, title): 
   return html.replace('[^title^]', title)
 
+def get_post_introduction(md):
+  start_pos = 0
+  end_pos = md.find('<cut>')
+  if end_pos == -1:
+    end_pos = len(md)
+  return md[start_pos:end_pos].strip()
+
+def get_post_text(md):
+  start_pos = 0
+  if md[0] == '#':
+    start_pos = md.find('\n')
+  return md[start_pos:].strip()
+
+def set_theme(html, theme): 
+  return html.replace('[^theme^]', theme)
+
 def build_post_filename(file_name):
   return file_name[len(dirs['md_posts']) + 1:-3] + '.html'
 
 def build_post(html_content, page_title):
-  layout_header = set_page_title(layout['post_header'], page_title);
-  layout_footer = layout['post_footer']
-  return layout_header + '\n' + html_content + '\n' + layout_footer
+  return build_abstract_page(html_content, page_title, 'post')
 
 def build_page(html_content, page_title):
-  layout_header = set_page_title(layout['page_header'], page_title);
-  layout_footer = layout['page_footer']
+  return build_abstract_page(html_content, page_title, 'page')
+
+def build_abstract_page(html_content, page_title, layout_prefix):
+  layout_header = set_page_title(layout['header'], page_title);
+  layout_header = set_theme(layout_header, cfg['theme']);
+  layout_header += '\n' + layout[layout_prefix + '_top_wrapper']
+
+  layout_footer = layout[layout_prefix + '_bottom_wrapper']
+  layout_footer += '\n' + layout['footer']
+
   return layout_header + '\n' + html_content + '\n' + layout_footer
 
 def clean_posts_folder():
@@ -71,17 +93,24 @@ def build_all_posts(md_files):
     html_file = build_post_filename(md_file)
 
     post_title = get_post_title(md_content)
+    post_text = get_post_text(md_content)
+    post_introduction = get_post_introduction(post_text)
     page_title = post_title + ' | ' + cfg['title']
 
     post_info = {
       'file_name' : html_file,
       'post_title' : post_title,
-      'page_title' : page_title
+      'page_title' : page_title,
+      'text' : markdown.markdown(post_text),
+      'introduction' : markdown.markdown(post_introduction)
     }
 
     posts_info.append(post_info)
+
+    post_body = '## ' + post_title + ' ##\n';
+    post_body += post_text
     
-    html_content = build_post(markdown.markdown(md_content), page_title)
+    html_content = build_post(markdown.markdown(post_body), cfg['title'])
 
     write_file(dirs['html_posts'] + '/' + html_file, html_content)
   return posts_info
@@ -89,14 +118,17 @@ def build_all_posts(md_files):
 def build_page_post_item(post_info):
   url = '../posts/' + post_info['file_name']
   title = post_info['post_title']
-  return '<h2><a href="{0}">{1}</a></h2>'.format(url, title)
+  introduction = post_info['introduction']
+  post = '<li class="post">\n'
+  post += '<h2><a href="{0}">{1}</a></h2>\n'
+  post += '{2}\n'
+  post += '</li>'
+  return post.format(url, title, introduction)
 
 def build_blog_pages(posts_info):
   pages = []
   for idx in range(0, len(posts_info), cfg['posts_on_page']):
     pages.append(posts_info[idx:idx+cfg['posts_on_page']])
-
-  # write_file('test', pages[0][0]['page_title'])
 
   for page_idx, page in enumerate(pages):
     page_content = ''
@@ -123,10 +155,12 @@ dirs = {
 }
 
 layout = {
-  'post_header' : read_file(dirs['layouts'] + '/post-header.html'),
-  'post_footer' : read_file(dirs['layouts'] + '/post-footer.html'),
-  'page_header' : read_file(dirs['layouts'] + '/page-header.html'),
-  'page_footer' : read_file(dirs['layouts'] + '/page-footer.html')
+  'header' : read_file(dirs['layouts'] + '/header.html'),
+  'footer' : read_file(dirs['layouts'] + '/footer.html'),
+  'post_top_wrapper' : read_file(dirs['layouts'] + '/post-top-wrapper.html'),
+  'post_bottom_wrapper' : read_file(dirs['layouts'] + '/post-bottom-wrapper.html'),
+  'page_top_wrapper' : read_file(dirs['layouts'] + '/page-top-wrapper.html'),
+  'page_bottom_wrapper' : read_file(dirs['layouts'] + '/page-bottom-wrapper.html')
 }
 
 clean_folders()
