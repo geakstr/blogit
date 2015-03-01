@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Markdown.bash from https://github.com/chadbraunduin/markdown.bash
+
 # uncomment the following two lines if you have both BSD sed and GNU sed installed
 # this script is only tested to work with GNU sed which may have the command gsed
 shopt -s expand_aliases
