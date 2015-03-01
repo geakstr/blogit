@@ -6,7 +6,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -168,3 +169,7 @@ $RECYCLE.BIN/
 pyvenv.cfg
 pip-selfcheck.json
 
+
+workspace/
+blog/posts
+blog/pages
