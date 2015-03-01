@@ -170,6 +170,5 @@ pyvenv.cfg
 pip-selfcheck.json
 
 
-workspace/
-blog/posts
-blog/pages
+markdown
+html
