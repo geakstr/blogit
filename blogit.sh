@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# DWTFYWWI LICENSE 
+# TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+# 0. The author grants everyone permission to do whatever the fuck they 
+# want with the software, whatever the fuck that may be. 
+
+
 # shopt -s expand_aliases
 # alias sed=gsed
 
