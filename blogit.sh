@@ -45,7 +45,7 @@ do
     title=$(echo "${LINES[@]}" | sed 's/^[ #]*//g' | sed 's/[ #]*$//g')
     break
   done <<< "$md_content"
-  title=$(echo "$title" | sed -e 's/[\/&]/\\&/g')  
+  title=$(echo "$title" | sed -e 's/[\/&]/\\&/g') 
 
   html_content=${html_template:0:title_pttrn_pos}
   html_content=$html_content$title
