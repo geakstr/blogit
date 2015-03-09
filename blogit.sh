@@ -41,8 +41,8 @@ do
   md_content=$(< $md_file)
 
   title=""
-  while IFS=$'\n' read -ra ADDR; do
-    title=$(echo "${ADDR[@]}" | sed 's/^[ #]*//g' | sed 's/[ #]*$//g')
+  while IFS=$'\n' read -ra LINES; do
+    title=$(echo "${LINES[@]}" | sed 's/^[ #]*//g' | sed 's/[ #]*$//g')
     break
   done <<< "$md_content"
   title=$(echo "$title" | sed -e 's/[\/&]/\\&/g')  
