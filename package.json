@@ -1,0 +1,11 @@
+{
+  "name": "blogit",
+  "version": "0.0.1",
+  "description": "A hyperminimal geek tool for blogging",
+  "author": "Dmitry Kharitonov <geakstr@me.com>",
+  "license": "DWTFYWWI",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-stylus": "^2.0.1"
+  }
+}
