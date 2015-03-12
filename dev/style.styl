@@ -1,84 +1,16 @@
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -86,34 +18,21 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
   display: block;
 }
 body {
   line-height: 1;
 }
-ol,
-ul {
+ol, ul {
   list-style: none;
 }
-blockquote,
-q {
+blockquote, q {
   quotes: none;
 }
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote:before, blockquote:after,
+q:before, q:after {
   content: '';
   content: none;
 }
@@ -121,66 +40,77 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 * {
   box-sizing: border-box;
 }
-body {
+
+body {  
   background: #fff;
   color: #333;
   font-family: Verdana, Helvetica, 'Helvetica Neue', Arial, sans-serif;
   font-size: 10px;
   line-height: 10px;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6
+{
   display: inline;
   font-family: Baskerville, Cochin, Times, Georgia, 'Times New Roman', serif;
   font-weight: 700;
   line-height: 1em;
 }
+
 a {
-  color: #5198fc;
+  color: #5198FC;
   text-decoration: none;
   border-bottom: 1px solid;
 }
 a:hover {
-  color: #e72623;
+  color: #E72623;
 }
 a:visited {
-  color: #77bbe6;
+  color: #77BBE6;
 }
+
 body > header h1 {
   font-size: 2.8em;
 }
+
 body > header,
 body > footer {
   padding: 44px 22px;
 }
+
 #content > * {
   min-width: 640px;
 }
+
 body > header,
 body > footer,
 #content > h2,
 #content > h3,
-#content > h4,
+#content > h4, 
 #content > h5,
 #content > h6,
 #content > p,
 #content > ul,
-#content > ol {
-  max-width: 960px;
+#content  > ol {
+  max-width: 960px;  
   margin: 0 3% 0 7%;
   padding-left: 22px;
 }
+
 #content {
   font-size: 1.6em;
   line-height: 1.5em;
 }
+
 /* Headers */
 #content h2 {
   font-size: 1.5em;
@@ -190,7 +120,7 @@ body > footer,
   font-size: 1.375em;
 }
 #content h4 {
-  font-size: 1.25em;
+  font-size: 1.250em;
 }
 #content h5 {
   font-size: 1.125em;
@@ -205,18 +135,23 @@ body > footer,
   margin-bottom: 11px;
   color: #666;
 }
+
 #content em,
 #content i,
-#content blockquote {
+#content blockquote
+{
   font-style: italic;
 }
 #content strong,
-#content b {
+#content b
+{
   font-weight: 700;
 }
+
 /* Lists */
 #content ul,
-#content ol {
+#content ol
+{
   list-style-position: outside;
 }
 #content ul {
@@ -237,9 +172,11 @@ body > footer,
 #content ol ol ol {
   list-style-type: lower-roman;
 }
+
 /* Code */
 #content pre,
-#content code {
+#content code
+{
   font-family: Monaco, Menlo, Consolas, 'Ubuntu Mono', 'Courier New', monospace;
 }
 #content > pre,
@@ -260,8 +197,9 @@ body > footer,
   font-size: 0.875em;
   line-height: 1.429em;
 }
+
 #content > blockquote {
-  background: #f6f6f6;
+  background: #F6F6F6;
   font-family: Baskerville, Cochin, Times, Georgia, 'Times New Roman', serif;
 }
 #content > blockquote .author {
@@ -270,23 +208,28 @@ body > footer,
   font-weight: 700;
   color: #666;
 }
+
 #content > p,
 #content > blockquote,
 #content > pre,
 #content > ul,
-#content > ol {
+#content > ol
+{
   margin-bottom: 22px;
 }
+
 #content p:last-child,
 #content blockquote:last-child,
 #content pre:last-child,
 #content ul:last-child,
-#content ol:last-child {
+#content ol:last-child
+{
   margin-bottom: 0px;
 }
 #content > blockquote p {
   margin-bottom: 11px;
 }
+
 body > footer {
   font-size: 1.2em;
   line-height: 1em;
