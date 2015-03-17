@@ -9,7 +9,7 @@
 # shopt -s expand_aliases
 # alias sed=gsed
 
-markdown_lib="./markdown.pl"
+markdown_lib="./markdown_parsers/markdown.pl"
 
 strindex() { 
   x="${1%%$2*}"
